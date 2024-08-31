@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Histoire de France</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.quiz-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+label {
+    display:flex;
+    align-items: left;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#results {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Quiz sur l'Histoire de France</h1>
+        <div id="quiz"></div>
+        <button id="submit">Valider</button>
+        <div id="results"></div>
+    </div>
+    <script>
+        const quizData = [
+    {
+        question: "Qui a conquis la Gaule en 52 av. J.-C.?",
+        a: "Alexandre le Grand",
+        b: "Jules César",
+        c: "Hannibal",
+        d: "Vercingétorix",
+        correct: "b"
+    },
+    {
+        question: "Quel roi a été surnommé le Roi-Soleil?",
+        a: "Louis XIV",
+        b: "François Ier",
+        c: "Napoléon",
+        d: "Charles V",
+        correct: "a"
+    },
+    {
+        question: "En quelle année a eu lieu la Révolution française?",
+        a: "1776",
+        b: "1789",
+        c: "1799",
+        d: "1815",
+        correct: "b"
+    },
+    {
+        question: "Qui était la figure emblématique de la résistance française pendant la Seconde Guerre mondiale?",
+        a: "Jean Moulin",
+        b: "Charles de Gaulle",
+        c: "Philippe Pétain",
+        d: "Vercingétorix",
+        correct: "b"
+    },
+    {
+    question: "Qui était le premier roi des Francs?",
+    a: "Clovis",
+    b: "Charlemagne",
+    c: "Philippe Auguste",
+    d: "Henri IV",
+    correct: "a"
+},
+{
+    question: "Quelle bataille a marqué la fin de la guerre de Cent Ans?",
+    a: "Azincourt",
+    b: "Orléans",
+    c: "Castillon",
+    d: "Poitiers",
+    correct: "c"
+},
+{
+    question: "Quel traité a mis fin à la Première Guerre mondiale?",
+    a: "Traité de Versailles",
+    b: "Traité de Paris",
+    c: "Traité de Trianon",
+    d: "Traité de Brest-Litovsk",
+    correct: "a"
+},
+{
+    question: "Quel événement a déclenché la Révolution française en 1789?",
+    a: "La prise de la Bastille",
+    b: "La fuite de Varennes",
+    c: "La Révolte des Tuileries",
+    d: "Le serment du Jeu de Paume",
+    correct: "a"
+},
+{
+    question: "Qui a fondé la dynastie des Capétiens en 987?",
+    a: "Hugues Capet",
+    b: "Philippe Auguste",
+    c: "Louis IX",
+    d: "Charles V",
+    correct: "a"
+},
+{
+    question: "Quel roi a signé l'Édit de Nantes?",
+    a: "Henri IV",
+    b: "François Ier",
+    c: "Louis XIII",
+    d: "Louis XIV",
+    correct: "a"
+},
+{
+    question: "Qui a dirigé la France pendant le Premier Empire?",
+    a: "Napoléon Bonaparte",
+    b: "Louis XVIII",
+    c: "Charles X",
+    d: "Napoléon III",
+    correct: "a"
+},
+{
+    question: "Quelle bataille a marqué la défaite finale de Napoléon en 1815?",
+    a: "Austerlitz",
+    b: "Leipzig",
+    c: "Waterloo",
+    d: "Trafalgar",
+    correct: "c"
+},
+{
+    question: "Quel roi de France a été guillotiné pendant la Révolution française?",
+    a: "Louis XIV",
+    b: "Louis XV",
+    c: "Louis XVI",
+    d: "Louis XVIII",
+    correct: "c"
+},
+{
+    question: "Quel mouvement artistique et culturel a marqué le début du XXe siècle en France?",
+    a: "Le Baroque",
+    b: "Le Classicisme",
+    c: "Le Romantisme",
+    d: "Le Surréalisme",
+    correct: "d"
+},
+{
+    question: "Quel général français a été le chef de la France Libre pendant la Seconde Guerre mondiale?",
+    a: "Charles de Gaulle",
+    b: "Philippe Pétain",
+    c: "Georges Clemenceau",
+    d: "Jean Moulin",
+    correct: "a"
+},
+{
+    question: "Quelle est la date de la signature de l'Armistice qui a mis fin à la Première Guerre mondiale?",
+    a: "14 juillet 1918",
+    b: "11 novembre 1918",
+    c: "28 juin 1919",
+    d: "1er septembre 1939",
+    correct: "b"
+},
+{
+    question: "Quel roi a construit le château de Versailles?",
+    a: "Louis XIII",
+    b: "Louis XIV",
+    c: "Louis XV",
+    d: "Louis XVI",
+    correct: "b"
+},
+{
+    question: "Quel événement a marqué la fin de l'Ancien Régime en France?",
+    a: "La prise de la Bastille",
+    b: "La mort de Louis XIV",
+    c: "La convocation des États généraux",
+    d: "La Révolution française",
+    correct: "d"
+},
+{
+    question: "Quelle reine de France était connue pour sa phrase « Qu'ils mangent de la brioche »?",
+    a: "Marie de Médicis",
+    b: "Anne d'Autriche",
+    c: "Marie-Antoinette",
+    d: "Catherine de Médicis",
+    correct: "c"
+},
+{
+    question: "Qui a été le premier président de la République française?",
+    a: "Adolphe Thiers",
+    b: "Louis-Napoléon Bonaparte",
+    c: "Jules Grévy",
+    d: "Sadi Carnot",
+    correct: "b"
+},
+{
+    question: "Quel roi a été surnommé 'Saint Louis'?",
+    a: "Louis VI",
+    b: "Louis IX",
+    c: "Louis XIII",
+    d: "Louis XV",
+    correct: "b"
+},
+{
+    question: "Quel accord a permis l'annexion de la Savoie et de Nice à la France en 1860?",
+    a: "Traité de Paris",
+    b: "Traité de Londres",
+    c: "Traité de Turin",
+    d: "Traité de Vienne",
+    correct: "c"
+},
+{
+    question: "Quel événement a déclenché la Commune de Paris en 1871?",
+    a: "La chute du Second Empire",
+    b: "La défaite française à Sedan",
+    c: "La proclamation de la Troisième République",
+    d: "La guerre franco-prussienne",
+    correct: "d"
+},
+{
+    question: "Qui a dirigé la France pendant la majeure partie de la Quatrième République?",
+    a: "Charles de Gaulle",
+    b: "Vincent Auriol",
+    c: "René Coty",
+    d: "Georges Pompidou",
+    correct: "a"
+},
+{
+    question: "Quel événement a marqué la fin de la guerre d'Algérie en 1962?",
+    a: "Le Traité de Rome",
+    b: "Les Accords d'Évian",
+    c: "La bataille d'Alger",
+    d: "La proclamation de la Cinquième République",
+    correct: "b"
+},
+{
+    question: "Quel célèbre prisonnier est resté incarcéré à la Bastille pendant 34 ans?",
+    a: "Le Masque de Fer",
+    b: "Jean Valjean",
+    c: "Le Comte de Monte-Cristo",
+    d: "François Vidocq",
+    correct: "a"
+},
+{
+    question: "Qui a succédé à Charles de Gaulle à la présidence de la République française en 1969?",
+    a: "François Mitterrand",
+    b: "Georges Pompidou",
+    c: "Valéry Giscard d'Estaing",
+    d: "Jacques Chirac",
+    correct: "b"
+},
+{
+    question: "Quel traité a institué la Communauté économique européenne (CEE) en 1957?",
+    a: "Traité de Maastricht",
+    b: "Traité de Paris",
+    c: "Traité de Rome",
+    d: "Traité de Nice",
+    correct: "c"
+},
+{
+    question: "Qui était le chef du gouvernement français pendant la première année de la Seconde Guerre mondiale?",
+    a: "Édouard Daladier",
+    b: "Philippe Pétain",
+    c: "Pierre Laval",
+    d: "Léon Blum",
+    correct: "a"
+}
+];
+
+const quizContainer = document.getElementById('quiz');
+const resultsContainer = document.getElementById('results');
+const submitButton = document.getElementById('submit');
+
+let currentQuestionIndex = 0;
+let numCorrect = 0;
+
+function loadQuestion() {
+    const currentQuestion = quizData[currentQuestionIndex];
+    const answers = [];
+
+    for (letter in currentQuestion) {
+        if (letter !== 'question' && letter !== 'correct') {
+            answers.push(
+                `<label>
+                    <input type="radio" name="question" value="${letter}">
+                    ${letter} : ${currentQuestion[letter]}
+                </label>`
+            );
+        }
+    }
+
+    quizContainer.innerHTML = `
+        <div class="question">${currentQuestion.question}</div>
+        <div class="answers">${answers.join('')}</div>
+    `;
+}
+
+function showResults() {
+    const selectedAnswer = document.querySelector('input[name=question]:checked');
+    const userAnswer = selectedAnswer ? selectedAnswer.value : undefined;
+
+    if (userAnswer === quizData[currentQuestionIndex].correct) {
+        numCorrect++;
+        quizContainer.style.color = 'green';
+        setTimeout(nextQuestion, 500);
+    } else {
+        quizContainer.style.color = 'red';
+    }
+}
+
+function nextQuestion() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < quizData.length) {
+        loadQuestion();
+        quizContainer.style.color = 'black';
+    } else {
+        quizContainer.innerHTML = `<h2>Vous avez répondu correctement à ${numCorrect} questions sur ${quizData.length}.</h2>`;
+        submitButton.style.display = 'none';
+    }
+}
+
+loadQuestion();
+
+submitButton.addEventListener('click', showResults);
+
+    </script>
+</body>
+</html>
